@@ -1,0 +1,13 @@
+kind: VirtualMachineClone
+apiVersion: "clone.kubevirt.io/v1alpha1"
+metadata:
+  name: testclone
+spec:
+  source:
+    apiGroup: kubevirt.io
+    kind: VirtualMachine
+    name: testvm
+  target:
+    apiGroup: kubevirt.io
+    kind: VirtualMachine
+    name: testvm-clone

@@ -1,0 +1,98 @@
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  labels:
+    special: windows10-non-gpu
+  name: windows10-non-gpu
+  namespace: default
+spec:
+  runStrategy: RerunOnFailure
+  template:
+    metadata:
+      labels:
+        special: windows10-non-gpu
+    spec:
+      domain:
+        clock:
+          timer:
+            hpet:
+              present: false
+            hyperv: {}
+            pit:
+              tickPolicy: delay
+            rtc:
+              tickPolicy: catchup
+          utc: {}
+        cpu:
+          cores: 8
+        resources:
+          requests:
+            memory: 24Gi
+          limits:
+            memory: 28Gi
+        devices:
+          disks:
+          - disk:
+              bus: virtio
+            name: pvcdisk
+          - name: virtiocontainerdisk
+            bootOrder: 2
+            cdrom:
+              bus: sata
+          interfaces:
+          - masquerade: {}
+            name: default
+          tpm: {}
+        features:
+          acpi: {}
+          apic: {}
+          hyperv:
+            relaxed: {}
+            spinlocks:
+              spinlocks: 8191
+            vapic: {}
+          smm: {}
+        firmware:
+          bootloader:
+            efi:
+              secureBoot: true
+          uuid: 5d307ca9-b3ef-428c-8861-06e72d69f223
+      networks:
+      - name: default
+        pod: {}
+      terminationGracePeriodSeconds: 0
+      volumes:
+      - name: pvcdisk
+        persistentVolumeClaim:
+          claimName: disk-win10-non-gpu
+      - containerDisk:
+          image: quay.io/kubevirt/virtio-container-disk:latest
+        name: virtiocontainerdisk
+      - name: cloudinitdisk
+        cloudInitNoCloud:
+          userData: |
+            #cloud-config
+            set_timezone: Asia/Jakarta
+            hostname: client-1
+            groups:
+              - cloud-users
+            users:
+              - name: Administrator
+                primary_group: Administrators
+                groups: Administrators
+                passwd: test
+  dataVolumeTemplates:
+  - metadata:
+      name: disk-win10-non-gpu
+      namespace: default
+    spec:
+      storage:
+        storageClassName: nfs-standard
+        accessModes:
+        - ReadWriteOnce
+        resources:
+          requests:
+            storage: 100Gi
+      source:
+        http:
+          url: "https://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-disk.img" # S3 or GCS

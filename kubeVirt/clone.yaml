@@ -1,5 +1,5 @@
 kind: VirtualMachineClone
-apiVersion: "clone.kubevirt.io/v1alpha1"
+apiVersion: clone.kubevirt.io/v1alpha1
 metadata:
   name: testclone
 spec:

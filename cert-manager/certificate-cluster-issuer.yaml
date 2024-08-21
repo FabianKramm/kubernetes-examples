@@ -1,9 +1,9 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: example-com
+  name: example-com-cluster
 spec:
-  secretName: example-com-tls
+  secretName: example-com-cluster-tls
   issuerRef:
     kind: ClusterIssuer
     name: letsencrypt-staging

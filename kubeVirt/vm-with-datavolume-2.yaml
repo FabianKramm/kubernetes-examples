@@ -29,6 +29,8 @@ spec:
       name: alpine-dv
     spec:
       storage:
+        accessModes:
+        - ReadWriteOnce
         resources:
           requests:
             storage: 2Gi

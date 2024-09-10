@@ -87,12 +87,11 @@ spec:
       namespace: default
     spec:
       storage:
-        storageClassName: nfs-standard
         accessModes:
         - ReadWriteOnce
         resources:
           requests:
-            storage: 100Gi
+            storage: 10Gi
       source:
         http:
           url: "https://download.cirros-cloud.net/0.4.0/cirros-0.4.0-x86_64-disk.img" # S3 or GCS

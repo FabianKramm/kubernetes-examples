@@ -3,6 +3,7 @@ kind: Ingress
 metadata:
   name: nginx
 spec:
+  ingressClassName: nginx
   rules:
   - host: "nginx.k8s.orb.local"
     http:

@@ -12,5 +12,5 @@ spec:
   volumes:
   - name: volume
     image:
-      reference: quay.io/crio/artifact:v1
+      reference: registry.k8s.io/kube-apiserver:v1.32.1
       pullPolicy: IfNotPresent

@@ -54,4 +54,4 @@ spec:
                   shell: /bin/bash
                   sudo: ALL=(ALL) NOPASSWD:ALL
                   ssh_authorized_keys:
-                  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCnwWyc5GahLoMh0k7Z/rppNrY449VXldLRT7DtSMLZidpuwXBP3VP6X3ZJceQIvoL4hy8VUS7rOlu88QkIyT5ndycqMrPI+aBmk2GAYjLaUOVLmGZB56KKrX7GdwTBiH2quq+KYwjQ6bKbJOmo5DMqTNh59p4VOq+tNhD3bweXL38PO43S9lfFZC4dKFLcu66lJnq7NiKDFnypH/1tvdUS5I6o02urFlvkHkkJxfBVhr1gNrIggbdkybHQaIhom9TDHnDY7+cQAovi+aoriqmLCLkzXwRXTGt5m6ip5BL+uSK1mPkISUvfxtKZEf/9oo0TbKCa0pS1a0rbLWik6TeP
+                  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICcbmrkvMlIMashTKWRZAml8dxQEhQBhlWBs76MFGIpc fab.kramm@googlemail.com

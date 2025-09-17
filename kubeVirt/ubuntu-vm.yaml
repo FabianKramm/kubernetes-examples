@@ -5,33 +5,53 @@ metadata:
 spec:
   runStrategy: Always
   dataVolumeTemplates:
-  - metadata:
-      name: data
-    spec:
-      pvc:
-        accessModes:
-        - ReadWriteOnce
-        resources:
-          requests:
-            storage: 20Gi
-      source:
-        registry:
-          url: docker://quay.io/containerdisks/ubuntu:22.04
+    - metadata:
+        name: data
+      spec:
+        pvc:
+          accessModes: ["ReadWriteOnce"]
+          resources:
+            requests:
+              storage: 20Gi
+        source:
+          registry:
+            url: docker://quay.io/containerdisks/ubuntu:22.04
   template:
     spec:
       domain:
         cpu:
           cores: 2
-        devices:
-          disks:
-          - disk:
-              bus: virtio
-            name: containervolume
-          networkInterfaceMultiqueue: true
         memory:
           guest: 4Gi
+        devices:
+          networkInterfaceMultiqueue: true
+          disks:
+            - name: containervolume
+              disk: { bus: virtio }
+            - name: cloudinit
+              disk: { bus: virtio }
+          interfaces:
+            - name: default
+              masquerade: {}
+              ports:
+                - name: ssh
+                  port: 22
+      networks:
+        - name: default
+          pod: {}
       evictionStrategy: External
       volumes:
-      - dataVolume:
-          name: data
-        name: containervolume
+        - name: containervolume
+          dataVolume:
+            name: data
+        - name: cloudinit
+          cloudInitNoCloud:
+            userData: |
+              #cloud-config
+              users:
+                - name: ubuntu
+                  groups: sudo
+                  shell: /bin/bash
+                  sudo: ALL=(ALL) NOPASSWD:ALL
+                  ssh_authorized_keys:
+                  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCnwWyc5GahLoMh0k7Z/rppNrY449VXldLRT7DtSMLZidpuwXBP3VP6X3ZJceQIvoL4hy8VUS7rOlu88QkIyT5ndycqMrPI+aBmk2GAYjLaUOVLmGZB56KKrX7GdwTBiH2quq+KYwjQ6bKbJOmo5DMqTNh59p4VOq+tNhD3bweXL38PO43S9lfFZC4dKFLcu66lJnq7NiKDFnypH/1tvdUS5I6o02urFlvkHkkJxfBVhr1gNrIggbdkybHQaIhom9TDHnDY7+cQAovi+aoriqmLCLkzXwRXTGt5m6ip5BL+uSK1mPkISUvfxtKZEf/9oo0TbKCa0pS1a0rbLWik6TeP

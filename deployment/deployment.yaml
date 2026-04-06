@@ -5,11 +5,11 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: test
+      app: nginx
   template:
     metadata:
       labels:
-        app: test
+        app: nginx
     spec:
       containers:
         - name: nginx
